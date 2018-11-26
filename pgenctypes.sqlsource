@@ -1,0 +1,126 @@
+-- _OBJWD_
+
+CREATE OR REPLACE FUNCTION pgenctypes_set_key(text)
+    RETURNS bool
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+-- enctext
+DROP TYPE enctext CASCADE;
+CREATE TYPE enctext;
+
+CREATE OR REPLACE FUNCTION enctext_in(cstring)
+    RETURNS enctext
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION enctext_out(enctext)
+    RETURNS cstring
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE TYPE enctext (
+   internallength = variable, 
+   input = enctext_in,
+   output = enctext_out,
+   alignment = int4,
+   storage = external
+);
+
+
+-- encbigint
+DROP TYPE encbigint CASCADE;
+CREATE TYPE encbigint;
+
+CREATE OR REPLACE FUNCTION encbigint_in(cstring)
+    RETURNS encbigint
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encbigint_out(encbigint)
+    RETURNS cstring
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE TYPE encbigint (
+   internallength = variable, 
+   input = encbigint_in,
+   output = encbigint_out,
+   alignment = int4,
+   storage = external
+);
+
+
+CREATE OR REPLACE FUNCTION encbigint_to_int8(encbigint)
+    RETURNS int8
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encbigint_from_int8(int8)
+    RETURNS encbigint
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encbigint_to_int4(encbigint)
+    RETURNS int4
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encbigint_from_int4(int4)
+    RETURNS encbigint
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE CAST (encbigint AS int8) WITH FUNCTION encbigint_to_int8(encbigint) AS IMPLICIT;
+CREATE CAST (int8 AS encbigint) WITH FUNCTION encbigint_from_int8(int8) AS IMPLICIT;
+CREATE CAST (encbigint AS int4) WITH FUNCTION encbigint_to_int4(encbigint) AS ASSIGNMENT;
+CREATE CAST (int4 AS encbigint) WITH FUNCTION encbigint_from_int4(int4) AS ASSIGNMENT;
+
+
+-- encdouble
+DROP TYPE encdouble CASCADE;
+CREATE TYPE encdouble;
+
+CREATE OR REPLACE FUNCTION encdouble_in(cstring)
+    RETURNS encdouble
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encdouble_out(encdouble)
+    RETURNS cstring
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE TYPE encdouble (
+   internallength = variable, 
+   input = encdouble_in,
+   output = encdouble_out,
+   alignment = int4,
+   storage = external
+);
+
+CREATE OR REPLACE FUNCTION encdouble_to_float8(encdouble)
+    RETURNS float8
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encdouble_from_float8(float8)
+    RETURNS encdouble
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encdouble_to_float4(encdouble)
+    RETURNS float4
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION encdouble_from_float4(float4)
+    RETURNS encdouble
+    AS '_OBJWD_/pgenctypes.so'
+    LANGUAGE C IMMUTABLE STRICT;
+
+CREATE CAST (encdouble AS float8) WITH FUNCTION encdouble_to_float8(encdouble) AS IMPLICIT;
+CREATE CAST (float8 AS encdouble) WITH FUNCTION encdouble_from_float8(float8) AS IMPLICIT;
+CREATE CAST (encdouble AS float4) WITH FUNCTION encdouble_to_float4(encdouble) AS ASSIGNMENT;
+CREATE CAST (float4 AS encdouble) WITH FUNCTION encdouble_from_float4(float4) AS ASSIGNMENT;
+
